@@ -12,12 +12,18 @@
     "fix": "run-s fix:prettier fix:eslint",
     "fix:eslint": "npm run lint:eslint -- --fix",
     "fix:prettier": "npm run lint:prettier -- --write",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prisma:mig": "pnpm run prisma:format && prisma migrate dev && pnpm run prisma:generate",
+    "prisma:format": "prisma migrate reset",
+    "prisma:generate": "prisma generate",
+    "prisma:studio": "prisma studio"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^0.10.4",
+    "@auth/prisma-adapter": "^2.7.4",
     "@prisma/client": "^6.4.0",
+    "dotenv": "^16.4.7",
     "next": "14.2.23",
+    "next-auth": "5.0.0-beta.25",
     "react": "^18",
     "react-dom": "^18"
   },
