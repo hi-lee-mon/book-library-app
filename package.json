@@ -5,6 +5,7 @@
   "scripts": {
     "postinstall": "prisma generate",
     "dev": "next dev",
+    "scan": "next dev & npx react-scan@latest localhost:3000",
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "run-p -l -c --aggregate-output lint:*",
