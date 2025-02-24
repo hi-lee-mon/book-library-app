@@ -7,17 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ユーザー（アダプター）=============================================================
+/********************************************
+* 認証
+*********************************************/
 model User {
   id            String          @id @default(cuid())
   name          String?
   email         String          @unique
   emailVerified DateTime?
   image         String?
+  role          Role            @default(USER)
   accounts      Account[]
   sessions      Session[]
-  // Optional for WebAuthn support
-  Authenticator Authenticator[]
   loans         Loan[]
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
@@ -62,23 +63,14 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
-// Optional for WebAuthn support
-model Authenticator {
-  credentialID         String  @unique
-  userId               String
-  providerAccountId    String
-  credentialPublicKey  String
-  counter              Int
-  credentialDeviceType String
-  credentialBackedUp   Boolean
-  transports           String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@id([userId, credentialID])
+enum Role {
+  USER   // 一般ユーザー
+  ADMIN  // 管理者
 }
 
-// =============================================================ユーザー（アダプター）
+/********************************************
+* ドメイン
+*********************************************/
 
 model Book {
   id         String   @id @default(uuid())
