@@ -15,8 +15,9 @@
     "fix:eslint": "npm run lint:eslint -- --fix",
     "fix:prettier": "npm run lint:prettier -- --write",
     "prepare": "husky install",
-    "prisma:mig": "pnpm run prisma:format && prisma migrate dev && pnpm run prisma:generate",
+    "p:mig": "run-s prisma:format prisma:migrate prisma:generate",
     "prisma:format": "prisma migrate reset",
+    "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio"
   },
