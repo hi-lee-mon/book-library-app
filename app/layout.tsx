@@ -1,3 +1,5 @@
+import { Header } from '@/components/header'
+import { ThemeProvider } from '@/components/theme-provider'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Toaster } from 'sonner'
@@ -16,10 +18,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ja">
+    <html lang="ja" suppressHydrationWarning>
       <body className={inter.className}>
-        <main>{children}</main>
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
+          <main className="min-h-screen">{children}</main>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   )
