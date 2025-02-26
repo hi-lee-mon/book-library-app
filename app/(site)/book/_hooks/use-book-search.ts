@@ -23,7 +23,7 @@ export function useBookSearch(isbn: string, originalCode: string) {
         for (const query of queries) {
           console.log('Trying query:', query)
           const response = await fetch(
-            `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=10`,
+            `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=5`,
           )
           const data: GoogleBooksResponse = await response.json()
           console.log(`API response for query "${query}":`, data)
