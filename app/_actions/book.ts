@@ -7,6 +7,7 @@ export async function getBooks() {
   return unstable_cache(
     async () => {
       return prisma.book.findMany({
+        take: 10,
         orderBy: {
           createdAt: 'desc',
         },
@@ -14,7 +15,7 @@ export async function getBooks() {
     },
     ['books'],
     {
-      revalidate: 60, // 1分間キャッシュ
+      revalidate: 60,
       tags: ['books'],
     },
   )()
