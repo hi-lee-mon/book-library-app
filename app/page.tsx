@@ -1,25 +1,20 @@
+import { getBooks } from '@/app/_actions/book'
+import { BookGrid } from '@/app/_components/book-grid'
 import SignOutForm from '@/app/_components/sign-out-form'
-import prisma from '@/lib/prisma'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
-export default async function Home() {
-  // const session = await auth()
-
-  // if (!session) redirect('/auth')
-
-  const data = await prisma.book.findMany()
+export default async function HomePage() {
+  const books = await getBooks()
 
   return (
-    <div>
-      <h2>Home</h2>
+    <div className="container mx-auto p-4">
+      <h1 className="mb-6 text-2xl font-bold">本棚</h1>
+      <Button className="mb-4" variant="outline" asChild>
+        <Link href="/book">本登録画面へ</Link>
+      </Button>
+      <BookGrid books={books} />
       <SignOutForm />
-      {/* {session.user?.image && (
-        <Image src={session.user?.image} alt="sample" width="32" height="32" />
-      )} */}
-      {data.map((d) => (
-        <div key={d.id}>{d.title}</div>
-      ))}
-      <Link href="/book">Book</Link>
     </div>
   )
 }

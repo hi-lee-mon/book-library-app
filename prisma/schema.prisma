@@ -19,7 +19,7 @@ model User {
   role          Role            @default(USER)
   accounts      Account[]
   sessions      Session[]
-  loans         Loan[]
+  loans         Loan[]          // Loanとのリレーション
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
 }
@@ -73,13 +73,18 @@ enum Role {
 *********************************************/
 
 model Book {
-  id         String   @id @default(uuid())
-  title      String
-  author     String
-  isbn       String   @unique
-  coverImage String?
-  createdAt  DateTime @default(now())
-  loans      Loan[]
+  id            String   @id @default(cuid())
+  title         String
+  authors       String[]
+  imageUrl      String?
+  description   String?
+  isbn13        String?
+  isbn10        String?
+  publisher     String?
+  publishedDate String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  loans         Loan[]   // Loanとのリレーション
 }
 
 model Loan {
