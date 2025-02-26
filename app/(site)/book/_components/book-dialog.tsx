@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dialog'
 import type { BookInfo } from '@/types/book'
 import { useState } from 'react'
+import { toast } from 'sonner'
 import { createBook } from '../_actions/book'
 import { BookForm } from './book-form'
 
@@ -36,7 +37,10 @@ export function BookDialog({ book, isOpen, onClose }: BookDialogProps) {
 
     const result = await createBook(formData)
     if (result.success) {
+      toast.success('本を登録しました')
       onClose()
+    } else {
+      toast.error(result.error || '本の登録に失敗しました')
     }
   }
 

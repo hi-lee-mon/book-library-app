@@ -8,6 +8,7 @@ import { bookSchema, type BookFormData } from '@/lib/validations/book'
 import type { BookInfo } from '@/types/book'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { createBook } from '../_actions/book'
 
 type BookFormProps = {
@@ -47,7 +48,10 @@ export function BookForm({ book, onSuccess }: BookFormProps) {
 
     const result = await createBook(formData)
     if (result.success) {
+      toast.success('本を登録しました')
       onSuccess()
+    } else {
+      toast.error(result.error || '本の登録に失敗しました')
     }
   }
 
