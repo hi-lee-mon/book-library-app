@@ -19,3 +19,18 @@ export async function getBooks() {
     },
   )()
 }
+
+export async function getBookById(id: string) {
+  return unstable_cache(
+    async () => {
+      return prisma.book.findUnique({
+        where: { id },
+      })
+    },
+    [`book-${id}`],
+    {
+      revalidate: 60,
+      tags: ['books'],
+    },
+  )()
+}

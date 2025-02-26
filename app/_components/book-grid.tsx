@@ -1,4 +1,5 @@
 import type { Book } from '@prisma/client'
+import Link from 'next/link'
 
 type BookGridProps = {
   books: Book[]
@@ -16,8 +17,9 @@ export function BookGrid({ books }: BookGridProps) {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {books.map((book) => (
-        <div
+        <Link
           key={book.id}
+          href={`/books/${book.id}`}
           className="flex flex-col rounded-lg border bg-white p-4 shadow transition hover:shadow-lg"
         >
           <h3 className="mb-2 line-clamp-2 text-lg font-medium text-gray-900">
@@ -43,7 +45,7 @@ export function BookGrid({ books }: BookGridProps) {
               {book.isbn10 && <p>ISBN-10: {book.isbn10}</p>}
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   )
