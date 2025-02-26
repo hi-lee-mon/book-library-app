@@ -27,6 +27,7 @@
     "dotenv": "^16.4.7",
     "next": "14.2.23",
     "next-auth": "5.0.0-beta.25",
+    "quagga": "^0.12.1",
     "react": "^18",
     "react-dom": "^18"
   },
