@@ -21,6 +21,7 @@ export function Header() {
   const links = [
     { href: '/', label: 'ホーム' },
     { href: '/book', label: '本の登録' },
+    { href: '/search', label: '本を検索' },
   ]
 
   return (

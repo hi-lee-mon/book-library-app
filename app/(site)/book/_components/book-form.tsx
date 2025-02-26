@@ -5,18 +5,18 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { bookSchema, type BookFormData } from '@/lib/validations/book'
-import type { BookInfo } from '@/types/book'
 import { zodResolver } from '@hookform/resolvers/zod'
+import type { Book } from '@prisma/client'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import { createBook } from '../_actions/book'
 
 type BookFormProps = {
-  book: BookInfo
+  book: Book
   onSuccess: () => void
+  mode?: 'create' | 'edit'
+  onSubmit: (formData: FormData) => Promise<void>
 }
 
-export function BookForm({ book, onSuccess }: BookFormProps) {
+export function BookForm({ book, mode = 'create', onSubmit }: BookFormProps) {
   const {
     register,
     handleSubmit,
@@ -25,17 +25,20 @@ export function BookForm({ book, onSuccess }: BookFormProps) {
     resolver: zodResolver(bookSchema),
     defaultValues: {
       title: book.title,
-      authors: book.authors,
-      imageUrl: book.imageUrl,
-      description: book.description,
-      isbn13: book.isbn13,
-      isbn10: book.isbn10,
-      publisher: book.publisher,
-      publishedDate: book.publishedDate,
+      authors: book.authors
+        .join(', ')
+        .split(',')
+        .map((s) => s.trim()),
+      imageUrl: book.imageUrl || '',
+      description: book.description || '',
+      isbn13: book.isbn13 || '',
+      isbn10: book.isbn10 || '',
+      publisher: book.publisher || '',
+      publishedDate: book.publishedDate || '',
     },
   })
 
-  const onSubmit = async (data: BookFormData) => {
+  const handleFormSubmit = async (data: BookFormData) => {
     const formData = new FormData()
     formData.append('title', data.title)
     formData.append('authors', data.authors.join(','))
@@ -46,17 +49,11 @@ export function BookForm({ book, onSuccess }: BookFormProps) {
     if (data.publisher) formData.append('publisher', data.publisher)
     if (data.publishedDate) formData.append('publishedDate', data.publishedDate)
 
-    const result = await createBook(formData)
-    if (result.success) {
-      toast.success('本を登録しました')
-      onSuccess()
-    } else {
-      toast.error(result.error || '本の登録に失敗しました')
-    }
+    await onSubmit(formData)
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="title">タイトル</Label>
         <Input id="title" {...register('title')} />
@@ -108,7 +105,7 @@ export function BookForm({ book, onSuccess }: BookFormProps) {
       </div>
 
       <Button type="submit" disabled={isSubmitting}>
-        登録
+        {mode === 'create' ? '登録' : '更新'}
       </Button>
     </form>
   )
