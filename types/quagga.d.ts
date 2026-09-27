@@ -18,7 +18,7 @@ type QuaggaConfig = {
   numOfWorkers?: number
 }
 
-declare module 'quagga' {
+declare module '@ericblade/quagga2' {
   const Quagga: {
     init: (config: QuaggaConfig, callback: (err: Error | null) => void) => void
     start: () => void
