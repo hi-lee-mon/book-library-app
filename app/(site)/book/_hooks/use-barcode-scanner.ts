@@ -1,4 +1,4 @@
-import Quagga from 'quagga'
+import Quagga from '@ericblade/quagga2'
 import { useCallback, useRef } from 'react'
 
 type BarcodeScannerProps = {
